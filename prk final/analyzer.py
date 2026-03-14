@@ -1,23 +1,23 @@
 import pandas as pd
 
-class Analyzer:
-    def __init__(self, filepath):
-        try:
-            self.data = pd.read_csv(filepath)
-        except Exception as e:
-            print("Error loading file:", e)
 
-    def top_scorer(self):
+class Analyzer:
+    """Legacy analyzer retained for compatibility.
+
+    Prefer the FastAPI service layer in app/services for new work.
+    """
+
+    def __init__(self, filepath: str) -> None:
+        self.data = pd.read_csv(filepath)
+
+    def top_scorer(self) -> pd.Series:
         return self.data.sort_values("points", ascending=False).iloc[0]
 
-    def average_points(self):
-        return self.data["points"].mean()
+    def average_points(self) -> float:
+        return float(self.data["points"].mean())
 
-    def mvp(self):
+    def mvp(self) -> pd.Series:
         self.data["efficiency"] = (
-            self.data["points"] +
-            self.data["assists"] +
-            self.data["rebounds"]
+            self.data["points"] + self.data["assists"] + self.data["rebounds"]
         ) / self.data["games"]
-
         return self.data.sort_values("efficiency", ascending=False).iloc[0]

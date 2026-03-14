@@ -1,29 +1,22 @@
-import hashlib
-from database.db import Database
+from app.config import get_settings
+from app.database import Database
+from app.repositories.auth_repo import AuthRepository
+from app.services.auth_service import AuthService, AuthError
+
 
 class Auth:
-    def __init__(self):
-        self.db = Database()
+    """Legacy wrapper around the refactored AuthService."""
 
-    def hash_password(self, password):
-        return hashlib.sha256(password.encode()).hexdigest()
+    def __init__(self) -> None:
+        self._service = AuthService(AuthRepository(Database()), get_settings())
 
-    def register(self, username, password):
-        hashed = self.hash_password(password)
+    def register(self, username: str, password: str) -> str:
         try:
-            self.db.conn.execute(
-                "INSERT INTO users(username,password) VALUES(?,?)",
-                (username, hashed)
-            )
-            self.db.conn.commit()
+            self._service.register(username, password)
             return "Registered!"
-        except:
+        except AuthError:
             return "User exists!"
 
-    def login(self, username, password):
-        hashed = self.hash_password(password)
-        cursor = self.db.conn.execute(
-            "SELECT * FROM users WHERE username=? AND password=?",
-            (username, hashed)
-        )
-        return cursor.fetchone() is not None
+    def login(self, username: str, password: str) -> str:
+        token, _ = self._service.login(username, password)
+        return token

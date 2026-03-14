@@ -1,7 +1,13 @@
-import matplotlib.pyplot as plt
+from visualizations.charts import (
+    assists_per_game_chart,
+    performance_trend_chart,
+    points_per_game_chart,
+    rebounds_per_game_chart,
+)
 
-def plot_points(data):
-    plt.bar(data["name"], data["points"])
-    plt.xticks(rotation=45)
-    plt.title("Total Points per Player")
-    plt.show()
+__all__ = [
+    "assists_per_game_chart",
+    "performance_trend_chart",
+    "points_per_game_chart",
+    "rebounds_per_game_chart",
+]

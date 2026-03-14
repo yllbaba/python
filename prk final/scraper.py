@@ -1,9 +1,6 @@
-import requests
-from bs4 import BeautifulSoup
+from typing import List
 
-def scrape_nba_titles():
-    url = "https://www.nba.com/news"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    titles = [h.text for h in soup.find_all("h3")]
-    return titles[:5]
+
+def scrape_nba_titles() -> List[str]:
+    """Deprecated. Web scraping removed to keep the project Python-only without extra deps."""
+    return []

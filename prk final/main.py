@@ -1,9 +1,10 @@
-from models.analyzer import Analyzer
+from app.main import app
 
-analyzer = Analyzer("data/players.csv")
 
-print("Top Scorer:")
-print(analyzer.top_scorer())
+def run_message() -> None:
+    print("Use 'python run.py api' to start the FastAPI server.")
+    print("Use 'python run.py dashboard' to start the Streamlit dashboard.")
 
-print("\nMVP:")
-print(analyzer.mvp())
+
+if __name__ == "__main__":
+    run_message()
